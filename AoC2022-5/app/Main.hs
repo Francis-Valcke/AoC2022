@@ -2,18 +2,19 @@ module Main where
 import Data.Char (isNumber)
 import Debug.Trace
 import Text.Printf
+import Data.List (foldl')
 
 main :: IO ()
 main = do
-  file <- readFile "input1b.txt"
+  file <- readFile "input6mb.txt"
   let stacks = parseStacks file
   let instructions = parseInstructions file
 
   -- Ex1
-  let sim1 = foldl (\tempStack instr -> execute instr tempStack reverse) stacks instructions
+  let sim1 = foldl' (\tempStack instr -> execute (trace (show instr) instr) tempStack reverse) stacks instructions
   print . evaluate $ sim1
   -- Ex2
-  let sim2 = foldl (\tempStack instr -> execute instr tempStack (\s->s)) stacks instructions
+  let sim2 = foldl' (\tempStack instr -> execute instr tempStack (\s->s)) stacks instructions
   print . evaluate $ sim2
 
 evaluate::[String]->String
